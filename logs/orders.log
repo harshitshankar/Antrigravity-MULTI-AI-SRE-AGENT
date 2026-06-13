@@ -7,3 +7,5 @@
 2026-06-13 11:05:16 WARN [OrdersService] Retry attempt 1 failed for Order ID: ord_82313
 2026-06-13 11:05:18 WARN [OrdersService] Retry attempt 2 failed for Order ID: ord_82313
 2026-06-13 11:05:20 ERROR [OrdersService] Maximum retries reached. Database connections exhausted (HikariPool-1).
+2026-06-13T12:00:00Z ERROR OutOfMemoryError: Java heap space in Orders API
+2026-06-13T12:01:00Z ERROR GC overhead limit exceeded
