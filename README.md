@@ -959,3 +959,99 @@ This project is designed for learning! Feel free to:
 ---
 
 **Built with ❤️ using Python, LangGraph, FastAPI, Streamlit, ChromaDB, and Google Gemini**
+
+Yes, you can absolutely add and link as many services as you want (e.g. adding a new shipping or auth service).
+
+Here is the step-by-step guide on how to add a new service named shipping:
+
+Step 1: Tell the Backend about the New Service
+Open 
+main.py
+ and add your service name to the services list:
+
+python
+
+
+# Before
+services = ["orders", "inventory", "payment"]
+# After
+services = ["orders", "inventory", "payment", "shipping"]
+Step 2: Create Logs and Metrics Files
+The SRE agents need metrics and logs for this service, otherwise, it will complain about missing files.
+
+Create metrics file 
+metrics/shipping.json
+:
+json
+
+
+{
+  "service": "shipping",
+  "cpu": 45,
+  "memory": 60,
+  "error_rate": 0.5,
+  "active_deliveries": 320,
+  "timestamp": "2026-06-13T14:00:00Z"
+}
+Create log file 
+logs/shipping.log
+:
+text
+
+
+2026-06-13T13:58:10Z INFO Shipping service started.
+2026-06-13T13:59:00Z INFO Fetching address coordinates for label printing.
+2026-06-13T14:00:00Z ERROR FedEx API failure: DNS resolution timed out on api.fedex.com
+Step 3: Teach the Planner Agent to Detect the Service
+Open 
+agents/planner.py
+:
+
+Update keyword matching (Line 56):
+python
+
+
+if "order" in query_lower:
+    service = "orders"
+elif "pay" in query_lower or "stripe" in query_lower or "card" in query_lower:
+    service = "payment"
+elif "inventory" in query_lower or "stock" in query_lower or "warehouse" in query_lower:
+    service = "inventory"
+elif "ship" in query_lower or "fedex" in query_lower or "delivery" in query_lower:
+    service = "shipping"
+Update the LLM instruction prompt list (Line 84): Change: choose exactly from: 'orders', 'payment', 'inventory', or 'unknown' To: choose exactly from: 'orders', 'payment', 'inventory', 'shipping', or 'unknown'
+Step 4: Add Fallback Rules to the Diagnosis Agent
+If you are running the system without a Gemini API Key, the system needs to know what mock diagnosis to return for shipping. Open 
+agents/diagnosis_agent.py
+ and add:
+
+python
+
+
+elif service == "shipping":
+    diagnosis = "FedEx API connectivity failure. DNS resolution to api.fedex.com timed out, preventing label generation and dispatch tracking."
+    remediation = """1. **Verify Vendor Status**: Check status.fedex.com for API availability.
+2. **Switch Carrier**: Route shipments temporarily to backup DHL/UPS carrier endpoints.
+3. **Queue Labels**: Store unsent print jobs in local Kafka retry queues and process later."""
+Step 5: Add Known Runbooks (Optional for RAG)
+Create a new Markdown runbook in the KEDB folder, such as 
+kedb/shipping_carrier_failure.md
+:
+
+markdown
+
+
+# Shipping Carrier API Timeout
+## Problem
+API integration calls to external carriers (FedEx, UPS) time out or fail to resolve.
+## Solutions
+1. Route shipments through alternative providers.
+2. Queue requests locally and retry when carrier returns online.
+The RAG Agent will search and load this runbook automatically if the user mentions carrier errors in the incident trigger prompt!
+
+How the Frontend Handles This
+Since I just modified 
+ui/app.py
+, the frontend dashboard will automatically detect the new shipping service from the backend's API response, create a 4th health card on the home screen, populate its performance graphs, and add it to the logs dropdown menu without needing any manual code updates in the UI!
+
+
