@@ -516,7 +516,7 @@ with tab_investigation:
             
         # 4. RAG / KEDB Agent — shows matching known-error documents
         # 4. KEDB / RAG
-        st.json(list(state.keys()))
+        #st.json(list(state.keys()))
         with st.expander("🔍 RAG / Knowledge Base Matches", expanded=False):
             st.markdown(state.get("rag_summary", "No runbooks matching."))
             
