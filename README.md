@@ -854,6 +854,102 @@ def get_open_incidents():
 
 ---
 
+### 6. Connect to ServiceNow & BMC Helix (ITSM & Ticketing)
+
+Connecting to enterprise ITSM systems lets you automate incident response workflows end-to-end. You can poll for tickets, update work notes, request approvals, and resolve incidents.
+
+#### A. Fetching ServiceNow Tickets (Auto-Trigger SRE Pipeline)
+
+You can run a background job in FastAPI (`main.py`) that polls ServiceNow for newly created critical incidents:
+
+```python
+import os
+import requests
+
+SERVICENOW_INSTANCE = os.getenv("SERVICENOW_INSTANCE")
+SERVICENOW_USER = os.getenv("SERVICENOW_USER")
+SERVICENOW_PASS = os.getenv("SERVICENOW_PASSWORD")
+
+def fetch_new_servicenow_incidents():
+    """Fetch active, unassigned P1/P2 incidents from ServiceNow."""
+    url = f"https://{SERVICENOW_INSTANCE}.service-now.com/api/now/table/incident"
+    params = {
+        "sysparm_query": "active=true^priorityIN1,2^assigned_toISNULL^state=1",
+        "sysparm_fields": "number,short_description,sys_id,description",
+        "sysparm_limit": 5
+    }
+    response = requests.get(
+        url, 
+        auth=(SERVICENOW_USER, SERVICENOW_PASS), 
+        params=params,
+        headers={"Accept": "application/json"}
+    )
+    return response.json().get("result", []) if response.status_code == 200 else []
+```
+
+#### B. Posting Investigation Diagnosis & Work Notes
+
+Update the incident's internal SRE logs as the agents compile diagnostics:
+
+```python
+def add_work_note_to_incident(incident_sys_id: str, note_text: str):
+    """Add a work note update to a ServiceNow incident ticket."""
+    url = f"https://{SERVICENOW_INSTANCE}.service-now.com/api/now/table/incident/{incident_sys_id}"
+    payload = {
+        "work_notes": f"[AI SRE Copilot] {note_text}"
+    }
+    response = requests.put(
+        url,
+        auth=(SERVICENOW_USER, SERVICENOW_PASS),
+        json=payload,
+        headers={"Content-Type": "application/json", "Accept": "application/json"}
+    )
+    return response.status_code == 200
+```
+
+#### C. Resolving the Ticket & Syncing Approvals
+
+After the operator approves the remediation action and the pipeline runs it, resolve the ticket automatically:
+
+```python
+def resolve_servicenow_incident(incident_sys_id: str, resolution_notes: str):
+    """Set incident state to Resolved (state code '6')."""
+    url = f"https://{SERVICENOW_INSTANCE}.service-now.com/api/now/table/incident/{incident_sys_id}"
+    payload = {
+        "state": "6", # '6' is the ServiceNow code for Resolved
+        "close_code": "Solved (Workaround)",
+        "close_notes": f"Resolved automatically by AI SRE Copilot:\n{resolution_notes}"
+    }
+    response = requests.put(
+        url,
+        auth=(SERVICENOW_USER, SERVICENOW_PASS),
+        json=payload,
+        headers={"Content-Type": "application/json"}
+    )
+    return response.status_code == 200
+```
+
+#### D. Integrating with BMC Helix ITSM
+
+For **BMC Helix**, authenticate using OAuth tokens (`/jwt/login`), and interact with the incident business interfaces:
+
+```python
+def helix_login(host, username, password):
+    url = f"https://{host}/api/jwt/login"
+    response = requests.post(url, data={"username": username, "password": password})
+    return response.text  # Returns JWT token string
+
+def update_helix_incident(host, token, incident_id, work_note):
+    url = f"https://{host}/api/rx/application/incident/incident/{incident_id}"
+    headers = {"Authorization": f"AR-JWT {token}", "Content-Type": "application/json"}
+    payload = {
+        "workNote": f"[AI SRE Copilot] {work_note}"
+    }
+    requests.put(url, headers=headers, json=payload)
+```
+
+---
+
 ### Summary: Environment Variables for Real Integrations
 
 When you connect real sources, your `.env` file will look like:

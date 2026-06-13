@@ -315,8 +315,9 @@ with tab_logs:
     if not backend_online:
         st.warning("Backend API must be running to query system log files.")
     else:
-        # st.selectbox creates a dropdown menu — operator picks a service
-        service_select = st.selectbox("Select Target Service", ["orders", "inventory", "payment"])
+        # st.selectbox creates a dropdown menu — operator picks a service dynamically from the API
+        services_list = list(system_health.keys()) if system_health else ["orders", "inventory", "payment"]
+        service_select = st.selectbox("Select Target Service", services_list)
         # st.text_input creates a single-line text field for the keyword filter
         search_filter = st.text_input("Filter logs by keyword (e.g. ERROR, HikariPool, Stripe)", "")
         
