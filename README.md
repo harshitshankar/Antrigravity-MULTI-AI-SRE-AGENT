@@ -1303,3 +1303,92 @@ Writing work notes dynamically from SRE Copilot agents to updating tickets.
 Auto-Resolving the tickets once remediation is approved and executed.
 Authenticating and posting updates to BMC Helix ITSM interfaces via JWT and Rx APIs.
 This completes all integration tutorials in the documentation! Let me know if you have any other questions.
+
+
+To replace the demo data with real integrations, you will modify specific files in your project directory.
+
+Here is the exact map of which files you need to update for each integration:
+
+1. Splunk Log Integration
+Target File: 
+agents/log_agent.py
+Where to modify: Inside the node function run_log_agent(state).
+What to replace: Replace the local file-reading logic:
+python
+
+
+# REPLACE THIS:
+log_file = os.path.join(logs_dir, f"{service}.log")
+with open(log_file, "r") as f:
+    ...
+with your Splunk REST API search function. You will feed the query results list into log_lines.
+2. Prometheus / Grafana Metrics Integration
+Target File: 
+agents/metrics_agent.py
+Where to modify: Inside the node function run_metrics_agent(state).
+What to replace: Replace the local JSON reading logic:
+python
+
+
+# REPLACE THIS:
+with open(metrics_file, "r") as f:
+    metrics_data = json.load(f)
+with your Prometheus queries (e.g., query for CPU, Memory, and Error rates using the service name). Store the returned numbers directly into the metrics_data dictionary.
+3. ServiceNow Knowledge Base (KEDB / RAG) Integration
+Target File: 
+rag/vector_store.py
+Where to modify: Inside the load_documents(self) method.
+What to replace: Replace the local folder directory scanner:
+python
+
+
+# REPLACE THIS:
+files = glob.glob(os.path.join(self.kedb_dir, "*.md"))
+for filepath in files:
+    ...
+with the fetch_servicenow_knowledge_articles() code. The articles pulled from ServiceNow will be appended directly into the self.documents list to be converted into vector embeddings.
+4. Kubernetes Live Diagnostics Integration
+Target File: 
+agents/metrics_agent.py
+Where to modify: Inside the run_metrics_agent(state) node.
+What to do: Add the Kubernetes client code to fetch active pod statuses and container restart counts for the targeted service name. Merge this data directly into the metrics_summary string so the AI is aware of cluster scheduling issues.
+5. ServiceNow / BMC Helix Ticketing Integrations
+Because ticket tracking happens outside of the individual agent brains, you will modify three different places depending on the workflow:
+
+A. Triggering the SRE Pipeline on New Tickets
+Target File: 
+main.py
+Where to modify: Near the bottom of main.py where the FastAPI server starts.
+What to do: Implement a simple background scheduler (e.g., using a library like apscheduler or a simple infinite loop running in a background thread) that calls fetch_new_servicenow_incidents() every 60 seconds. If a new incident is found, it automatically calls the backend's internal trigger logic:
+python
+
+
+# Inside your background scheduler loop:
+new_incidents = fetch_new_servicenow_incidents()
+for inc in new_incidents:
+    # Automatically kick off investigation:
+    await trigger_incident_workflow(IncidentQuery(query=inc["short_description"]))
+B. Posting Agent Progress Logs (Work Notes)
+Target Files: Inside each agent's run file (e.g., 
+agents/planner.py
+, 
+agents/log_agent.py
+, etc.).
+Where to modify: Right before the return statement of each agent's node function.
+What to do: Call the add_work_note_to_incident function so the SRE Copilot logs its steps on the real ServiceNow ticket:
+python
+
+
+# Example addition at the end of log_agent.py:
+add_work_note_to_incident(state["incident_id"], "Log Agent analysis complete. Found 6 warning logs.")
+C. Resolving the Ticket
+Target File: 
+agents/report_agent.py
+Where to modify: Inside the run_report_agent(state) function.
+What to do: Right after the final post-mortem Markdown report is compiled and saved to disk, invoke:
+python
+
+
+resolve_servicenow_incident(state["incident_id"], state["diagnosis"])
+This marks the ServiceNow incident resolved and attaches the AI's diagnosis as the resolution notes!
+5:16 PM
