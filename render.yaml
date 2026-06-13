@@ -1,0 +1,22 @@
+services:
+  # FastAPI Backend
+  - type: web
+    name: sre-copilot-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+
+  # Streamlit Frontend
+  - type: web
+    name: sre-copilot-ui
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run ui/app.py --server.port $PORT --server.address 0.0.0.0
+    envVars:
+      - key: API_BASE_URL
+        value: https://sre-copilot-api.onrender.com
+      - key: GEMINI_API_KEY
+        sync: false

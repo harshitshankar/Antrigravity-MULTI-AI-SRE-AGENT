@@ -1,0 +1,6 @@
+2026-06-13 11:00:01 INFO [PaymentService] Processing payment transaction for user_98124, amount: $120.00
+2026-06-13 11:00:03 INFO [PaymentService] Stripe payment confirmed. Transaction ID: tx_stripe_98124
+2026-06-13 11:05:12 INFO [PaymentService] Processing payment transaction for user_32412, amount: $45.50
+2026-06-13 11:05:40 ERROR [PaymentService] Stripe API request failed: read timeout to api.stripe.com
+2026-06-13 11:05:40 WARN [PaymentService] Gateway timeout. Falling back to retry queue.
+2026-06-13 11:05:41 ERROR [PaymentService] Payment processing failed. Gateway timeout (504).

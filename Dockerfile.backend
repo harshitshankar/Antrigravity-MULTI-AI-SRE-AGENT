@@ -1,0 +1,32 @@
+# Use a official slim Python image as base
+FROM python:3.11-slim
+
+# Set environment variables to optimize Python performance
+# - PYTHONDONTWRITEBYTECODE: Prevents Python from writing .pyc files
+# - PYTHONUNBUFFERED: Prevents Python from buffering stdout/stderr (useful for real-time logs)
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Install system dependencies needed for some Python packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements file first to take advantage of Docker caching
+COPY requirements.txt /app/
+
+# Install Python packages
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy all project files into the container
+COPY . /app/
+
+# Expose port 8000 for FastAPI backend
+EXPOSE 8000
+
+# Start the FastAPI server
+# We use uvicorn command directly to bind to 0.0.0.0 and port 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,0 +1,31 @@
+# Use a official slim Python image as base
+FROM python:3.11-slim
+
+# Set environment variables to optimize Python performance
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Install system dependencies needed for some Python packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements file first to leverage Docker cache
+COPY requirements.txt /app/
+
+# Install Python packages
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy all project files into the container
+COPY . /app/
+
+# Expose port 8501 for Streamlit frontend
+EXPOSE 8501
+
+# Start Streamlit application
+# - --server.address=0.0.0.0 is crucial so that the container is reachable externally
+# - --server.port=8501 specifies the port Streamlit will listen on
+CMD ["streamlit", "run", "ui/app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]

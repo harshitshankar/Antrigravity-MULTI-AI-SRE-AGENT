@@ -1,0 +1,9 @@
+{
+  "service": "orders",
+  "cpu": 92,
+  "memory": 84,
+  "error_rate": 18,
+  "active_connections": 100,
+  "connection_wait_time_ms": 30000,
+  "timestamp": "2026-06-13T11:05:15Z"
+}

@@ -1,0 +1,8 @@
+{
+  "service": "payment",
+  "cpu": 55,
+  "memory": 68,
+  "error_rate": 5,
+  "active_connections": 24,
+  "timestamp": "2026-06-13T11:05:15Z"
+}

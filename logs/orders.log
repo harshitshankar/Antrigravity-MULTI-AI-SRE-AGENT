@@ -1,0 +1,9 @@
+2026-06-13 11:00:01 INFO [OrdersService] Initiating order checkout for user_98124
+2026-06-13 11:00:03 INFO [OrdersService] Order checkout succeeded. Order ID: ord_82312
+2026-06-13 11:05:12 INFO [OrdersService] Initiating order checkout for user_32412
+2026-06-13 11:05:15 ERROR [OrdersService] Connection to database timed out after 30000ms
+2026-06-13 11:05:15 ERROR [OrdersService] HikariPool-1 - Connection is not available, request timed out after 30000ms.
+2026-06-13 11:05:15 ERROR [OrdersService] Failed to create order. Internal Server Error (500)
+2026-06-13 11:05:16 WARN [OrdersService] Retry attempt 1 failed for Order ID: ord_82313
+2026-06-13 11:05:18 WARN [OrdersService] Retry attempt 2 failed for Order ID: ord_82313
+2026-06-13 11:05:20 ERROR [OrdersService] Maximum retries reached. Database connections exhausted (HikariPool-1).
