@@ -66,8 +66,6 @@ def run_rag_agent(state: Dict[str, Any]) -> Dict[str, Any]:
         
         if api_key:
             try:
-          
-                
                 # Build a text block containing all matched documents
                 docs_joined = ""
                 for idx, doc in enumerate(results):
@@ -87,10 +85,12 @@ def run_rag_agent(state: Dict[str, Any]) -> Dict[str, Any]:
                 
                 Keep your response clear, structured, and concise.
                 """
-                
                 from utils.gemini_helper import generate
 
-                response_text = generate(prompt).strip()
+                # CHANGE THIS LINE: Assign directly to summary
+                summary = generate(prompt).strip()
+         
+                
             except Exception as e:
                 print(f"[RAGAgent] Gemini API error: {e}. Falling back to standard summary.")
                 api_key = None
