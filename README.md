@@ -1150,4 +1150,156 @@ Since I just modified
 ui/app.py
 , the frontend dashboard will automatically detect the new shipping service from the backend's API response, create a 4th health card on the home screen, populate its performance graphs, and add it to the logs dropdown menu without needing any manual code updates in the UI!
 
+Yes, you can absolutely connect the AI SRE Copilot to enterprise ITSM (IT Service Management) tools like ServiceNow or BMC Helix.
 
+Integrating with an ITSM tool makes the system feel like a true automated operations engineer. Here are the 4 main ways to hook them up, along with real Python code examples you can use to replace the mock logic.
+
+1. Automatically Triggering Investigations from New Incidents
+Instead of typing the query manually in Streamlit, you can configure your backend to receive webhooks from ServiceNow/Helix or poll their APIs for newly created tickets.
+
+Code Example: Polling ServiceNow for New Incidents
+You can add a background worker in your main.py that checks ServiceNow for active, unassigned incidents every 60 seconds:
+
+python
+
+
+import os
+import requests
+SERVICENOW_INSTANCE = os.getenv("SERVICENOW_INSTANCE")  # e.g., "dev12345"
+SERVICENOW_USER = os.getenv("SERVICENOW_USER")
+SERVICENOW_PASS = os.getenv("SERVICENOW_PASSWORD")
+def fetch_new_servicenow_incidents():
+    """Fetch all active, unassigned critical incidents from ServiceNow."""
+    url = f"https://{SERVICENOW_INSTANCE}.service-now.com/api/now/table/incident"
+    
+    # Query parameters: Active is true, severity is 1 (Critical), state is New
+    params = {
+        "sysparm_query": "active=true^severity=1^state=1^assigned_toISNULL",
+        "sysparm_fields": "number,short_description,sys_id,description",
+        "sysparm_limit": 5
+    }
+    
+    response = requests.get(
+        url, 
+        auth=(SERVICENOW_USER, SERVICENOW_PASS), 
+        params=params,
+        headers={"Accept": "application/json"}
+    )
+    
+    if response.status_code == 200:
+        incidents = response.json().get("result", [])
+        return incidents
+    return []
+2. Reading Runbooks directly from ServiceNow Knowledge Base (KEDB)
+Instead of searching local Markdown files in the kedb/ folder, you can update your RAG Agent to query ServiceNow's Knowledge Management (KB) tables directly.
+
+Code Example: Querying ServiceNow KB in 
+rag/vector_store.py
+python
+
+
+def search_servicenow_kb(query_term: str):
+    """Search ServiceNow Knowledge Base articles matching keywords."""
+    url = f"https://{SERVICENOW_INSTANCE}.service-now.com/api/now/table/kb_knowledge"
+    
+    # sysparm_query searches the text/topic and returns published articles
+    params = {
+        "sysparm_query": f"workflow_state=published^textLIKE{query_term}^ORshort_descriptionLIKE{query_term}",
+        "sysparm_fields": "number,short_description,text",
+        "sysparm_limit": 3
+    }
+    
+    response = requests.get(
+        url, 
+        auth=(SERVICENOW_USER, SERVICENOW_PASS), 
+        params=params,
+        headers={"Accept": "application/json"}
+    )
+    
+    kb_articles = []
+    if response.status_code == 200:
+        for article in response.json().get("result", []):
+            kb_articles.append({
+                "id": article["number"],
+                "title": article["short_description"],
+                "content": article["text"],  # Contains the runbook steps
+                "method": "ServiceNow KB Search"
+            })
+    return kb_articles
+3. Posting Diagnosis Notes and Updating the Ticket
+As the AI SRE Copilot runs each step (Logs analyzed, metrics checked), it can post updates directly into the ServiceNow/Helix incident ticket's Work Notes so human operators can follow the AI's thoughts.
+
+Code Example: Adding SRE Copilot Work Notes
+python
+
+
+def add_work_note_to_incident(incident_sys_id: str, note_text: str):
+    """Add a work note update to a ServiceNow incident."""
+    url = f"https://{SERVICENOW_INSTANCE}.service-now.com/api/now/table/incident/{incident_sys_id}"
+    
+    payload = {
+        # 'work_notes' are internal SRE-visible logs on the ticket
+        "work_notes": f"[AI SRE Copilot] {note_text}"
+    }
+    
+    response = requests.put(
+        url,
+        auth=(SERVICENOW_USER, SERVICENOW_PASS),
+        json=payload,
+        headers={"Content-Type": "application/json", "Accept": "application/json"}
+    )
+    return response.status_code == 200
+4. Syncing the Human-in-the-Loop Approval Workflow
+In our current pipeline, the UI provides buttons to Approve or Reject a remediation action. In a mature enterprise system:
+
+When the Diagnosis Agent finishes, the backend calls ServiceNow to create a Change Request or Approval Ticket.
+The LangGraph workflow goes to sleep (pause).
+An SRE Lead views the ticket in ServiceNow and clicks Approve.
+ServiceNow triggers a webhook back to our FastAPI backend (/api/incident/{id}/approve), which resumes the LangGraph pipeline, restarts the app service, and updates the ServiceNow incident to Resolved.
+Code Example: Resolving the ServiceNow Incident
+python
+
+
+def resolve_servicenow_incident(incident_sys_id: str, resolution_notes: str):
+    """Set incident state to Resolved and add resolution logs."""
+    url = f"https://{SERVICENOW_INSTANCE}.service-now.com/api/now/table/incident/{incident_sys_id}"
+    
+    payload = {
+        "state": "6", # '6' is the standard ServiceNow integer for 'Resolved'
+        "close_code": "Solved (Workaround)",
+        "close_notes": f"Resolved by AI SRE Copilot:\n{resolution_notes}"
+    }
+    
+    requests.put(
+        url,
+        auth=(SERVICENOW_USER, SERVICENOW_PASS),
+        json=payload,
+        headers={"Content-Type": "application/json"}
+    )
+How to configure this in BMC Helix
+If you use BMC Helix ITSM instead of ServiceNow, the logic is identical, but the endpoints use Helix APIs:
+
+Authentication: Helix uses token-based OAuth (/jwt/login to obtain an authentication token).
+Incident Tables: You query the HPD:IncidentInterface or Business Service endpoints to create and update tickets.
+Helix REST endpoint structure: https://<your-helix-host>/api/rx/application/incident/incident
+2:26 PM
+
+
+
+can u update these things in my readme well
+2:31 PM
+
+
+I have successfully updated your 
+README.md
+ to add the ServiceNow and BMC Helix integrations!
+
+Here is what was added:
+
+Section ### 6. Connect to ServiceNow & BMC Helix (ITSM & Ticketing) in the README under Connecting Real Data Sources.
+Code snippets for:
+Fetching/Polling for new active incident tickets from ServiceNow Table API.
+Writing work notes dynamically from SRE Copilot agents to updating tickets.
+Auto-Resolving the tickets once remediation is approved and executed.
+Authenticating and posting updates to BMC Helix ITSM interfaces via JWT and Rx APIs.
+This completes all integration tutorials in the documentation! Let me know if you have any other questions.
