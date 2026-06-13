@@ -1,5 +1,33 @@
-2026-06-13 11:00:01 INFO [InventoryService] Reserved stock for item_id: SKU-9923 (Qty: 1)
-2026-06-13 11:00:03 INFO [InventoryService] Committed reservation for item_id: SKU-9923
-2026-06-13 11:05:12 INFO [InventoryService] Reserved stock for item_id: SKU-8841 (Qty: 2)
-2026-06-13 11:05:13 INFO [InventoryService] Stock reservation succeeded. Status: RESERVED
-2026-06-13 11:06:01 WARN [InventoryService] Stock levels low for SKU-8841. Current: 3.
+
+2026-06-13 11:00:01 INFO  [InventoryService] Received stock reservation request. order_id=ORD-78124, item_id=SKU-9923, quantity=1
+2026-06-13 11:00:01 DEBUG [InventoryService] Current stock for SKU-9923: available=18, reserved=4
+2026-06-13 11:00:01 INFO  [InventoryService] Reserved stock for item_id=SKU-9923 (Qty: 1)
+2026-06-13 11:00:02 DEBUG [InventoryService] Persisting reservation transaction. reservation_id=RES-110923
+2026-06-13 11:00:03 INFO  [InventoryService] Committed reservation for item_id=SKU-9923. reservation_id=RES-110923
+2026-06-13 11:00:03 INFO  [InventoryService] Stock reservation succeeded. Status=RESERVED, order_id=ORD-78124
+
+2026-06-13 11:05:12 INFO  [InventoryService] Received stock reservation request. order_id=ORD-78125, item_id=SKU-8841, quantity=2
+2026-06-13 11:05:12 DEBUG [InventoryService] Current stock for SKU-8841: available=5, reserved=0
+2026-06-13 11:05:12 INFO  [InventoryService] Reserved stock for item_id=SKU-8841 (Qty: 2)
+2026-06-13 11:05:13 INFO  [InventoryService] Stock reservation succeeded. Status=RESERVED, order_id=ORD-78125
+
+2026-06-13 11:06:01 WARN  [InventoryService] Stock levels low for SKU-8841. Current=3, threshold=5
+2026-06-13 11:06:01 WARN  [InventoryService] Reorder alert generated for SKU-8841. supplier_id=SUP-204
+
+2026-06-13 11:10:44 INFO  [InventoryService] Received stock reservation request. order_id=ORD-78126, item_id=SKU-8841, quantity=4
+2026-06-13 11:10:44 ERROR [InventoryService] Insufficient inventory for SKU-8841. Requested=4, Available=3
+2026-06-13 11:10:44 ERROR [InventoryService] Stock reservation failed. Status=REJECTED, order_id=ORD-78126, reason=OUT_OF_STOCK
+
+2026-06-13 11:15:08 INFO  [InventoryService] Received stock update event. item_id=SKU-8841, quantity_added=50
+2026-06-13 11:15:09 INFO  [InventoryService] Inventory replenishment completed. item_id=SKU-8841, new_stock=53
+
+2026-06-13 11:18:22 INFO  [InventoryService] Received stock reservation request. order_id=ORD-78127, item_id=SKU-9923, quantity=2
+2026-06-13 11:18:22 DEBUG [InventoryService] Attempting optimistic lock update for SKU-9923
+2026-06-13 11:18:22 WARN  [InventoryService] Inventory update conflict detected for SKU-9923. Retrying attempt=1
+2026-06-13 11:18:23 INFO  [InventoryService] Retry successful. Reservation completed for order_id=ORD-78127
+
+2026-06-13 11:22:11 ERROR [InventoryService] Redis cache unavailable while fetching stock details. item_id=SKU-9923
+2026-06-13 11:22:11 WARN  [InventoryService] Falling back to database lookup for inventory validation
+2026-06-13 11:22:12 INFO  [InventoryService] Database fallback succeeded for item_id=SKU-9923
+
+2026-06-13 11:30:05 INFO  [InventoryService] Inventory health check completed. active_reservations=128, low_stock_items=4, cache_status=DEGRADED
