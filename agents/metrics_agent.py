@@ -74,9 +74,6 @@ def run_metrics_agent(state: Dict[str, Any]) -> Dict[str, Any]:
         
         if api_key:
             try:
-                import google.generativeai as genai
-                genai.configure(api_key=api_key)
-                model = genai.GenerativeModel("gemini-1.5-flash")
                 
                 # Send the metrics as JSON text to the AI for interpretation
                 prompt = f"""
@@ -92,9 +89,10 @@ def run_metrics_agent(state: Dict[str, Any]) -> Dict[str, Any]:
                 
                 Keep your summary professional and concise.
                 """
+                from utils.gemini_helper import generate
+
+                summary = generate(prompt).strip()
                 
-                response = model.generate_content(prompt)
-                summary = response.text.strip()
             except Exception as e:
                 print(f"[MetricsAgent] Gemini API error: {e}. Falling back to rule-based checks.")
                 api_key = None

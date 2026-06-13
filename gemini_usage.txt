@@ -1,0 +1,267 @@
+agents\diagnosis_agent.py:54:            import google.generativeai as genai
+agents\log_agent.py:82:                import google.generativeai as genai
+agents\metrics_agent.py:77:                import google.generativeai as genai
+agents\planner.py:70:            import google.generativeai as genai
+agents\RAG_agent.py:69:                import google.generativeai as genai
+agents\report_agent.py:60:            import google.generativeai as genai
+rag\vector_store.py:68:                import google.generativeai as genai
+venv\Lib\site-packages\chromadb\test\utils\test_embedding_function_schemas.py:288:        # Mock google.generativeai and google.genai - need to set up google module first
+venv\Lib\site-packages\chromadb\test\utils\test_embedding_function_schemas.py:292:        mock_google.generativeai = mock_google_genai
+venv\Lib\site-packages\chromadb\test\utils\test_embedding_function_schemas.py:311:            "google.generativeai": mock_google_genai,
+venv\Lib\site-packages\chromadb\utils\embedding_functions\google_embedding_function.py:214:    """To use this EmbeddingFunction, you must have the google.generativeai Python package installed and have a Google API key."""
+venv\Lib\site-packages\chromadb\utils\embedding_functions\google_embedding_function.py:239:            import google.generativeai as genai
+venv\Lib\site-packages\chromadb\utils\embedding_functions\google_embedding_function.py:242:                "The Google Generative AI python package is not installed. Please install it with `pip install google-generativeai`"
+venv\Lib\site-packages\chromadb\utils\embedding_functions\google_embedding_function.py:371:    """To use this EmbeddingFunction, you must have the google.generativeai Python package installed and have a PaLM API key."""
+venv\Lib\site-packages\chromadb\utils\embedding_functions\google_embedding_function.py:389:            import google.generativeai as palm
+venv\Lib\site-packages\chromadb\utils\embedding_functions\google_embedding_function.py:392:                "The Google Generative AI python package is not installed. Please install it with `pip install google-generativeai`"
+venv\Lib\site-packages\google\generativeai\answer.py:24:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\answer.py:26:from google.generativeai.client import (
+venv\Lib\site-packages\google\generativeai\answer.py:30:from google.generativeai.types import model_types
+venv\Lib\site-packages\google\generativeai\answer.py:31:from google.generativeai.types import helper_types
+venv\Lib\site-packages\google\generativeai\answer.py:32:from google.generativeai.types import safety_types
+venv\Lib\site-packages\google\generativeai\answer.py:33:from google.generativeai.types import content_types
+venv\Lib\site-packages\google\generativeai\answer.py:34:from google.generativeai.types import retriever_types
+venv\Lib\site-packages\google\generativeai\answer.py:35:from google.generativeai.types.retriever_types import MetadataFilter
+venv\Lib\site-packages\google\generativeai\answer.py:257:    >>> from google.generativeai import answer
+venv\Lib\site-packages\google\generativeai\answer.py:265:    >>> from google.generativeai import answer
+venv\Lib\site-packages\google\generativeai\answer.py:266:    >>> from google.generativeai import retriever
+venv\Lib\site-packages\google\generativeai\caching.py:21:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\caching.py:22:from google.generativeai.types import caching_types
+venv\Lib\site-packages\google\generativeai\caching.py:23:from google.generativeai.types import content_types
+venv\Lib\site-packages\google\generativeai\caching.py:24:from google.generativeai.client import get_default_cache_client
+venv\Lib\site-packages\google\generativeai\client.py:15:import google.generativeai.protos as protos
+venv\Lib\site-packages\google\generativeai\client.py:28:    from google.generativeai import version
+venv\Lib\site-packages\google\generativeai\embedding.py:21:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\embedding.py:23:from google.generativeai.client import get_default_generative_client
+venv\Lib\site-packages\google\generativeai\embedding.py:24:from google.generativeai.client import get_default_generative_async_client
+venv\Lib\site-packages\google\generativeai\embedding.py:26:from google.generativeai.types import helper_types
+venv\Lib\site-packages\google\generativeai\embedding.py:27:from google.generativeai.types import model_types
+venv\Lib\site-packages\google\generativeai\embedding.py:28:from google.generativeai.types import text_types
+venv\Lib\site-packages\google\generativeai\embedding.py:29:from google.generativeai.types import content_types
+venv\Lib\site-packages\google\generativeai\files.py:22:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\files.py:26:from google.generativeai.types import file_types
+venv\Lib\site-packages\google\generativeai\files.py:28:from google.generativeai.client import get_default_file_client
+venv\Lib\site-packages\google\generativeai\generative_models.py:14:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\generative_models.py:15:from google.generativeai import client
+venv\Lib\site-packages\google\generativeai\generative_models.py:17:from google.generativeai import caching
+venv\Lib\site-packages\google\generativeai\generative_models.py:18:from google.generativeai.types import content_types
+venv\Lib\site-packages\google\generativeai\generative_models.py:19:from google.generativeai.types import generation_types
+venv\Lib\site-packages\google\generativeai\generative_models.py:20:from google.generativeai.types import helper_types
+venv\Lib\site-packages\google\generativeai\generative_models.py:21:from google.generativeai.types import safety_types
+venv\Lib\site-packages\google\generativeai\generative_models.py:36:    >>> import google.generativeai as genai
+venv\Lib\site-packages\google\generativeai\generative_models.py:559:                "Unsupported configuration: The `google.generativeai` SDK currently does not support the combination of `stream=True` and `enable_automatic_function_calling=True`."
+venv\Lib\site-packages\google\generativeai\generative_models.py:688:                "Unsupported configuration: The `google.generativeai` SDK currently does not support the combination of `stream=True` and `enable_automatic_function_calling=True`."
+venv\Lib\site-packages\google\generativeai\models.py:22:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\models.py:23:from google.generativeai import operations
+venv\Lib\site-packages\google\generativeai\models.py:24:from google.generativeai.client import get_default_model_client
+venv\Lib\site-packages\google\generativeai\models.py:25:from google.generativeai.types import model_types
+venv\Lib\site-packages\google\generativeai\models.py:26:from google.generativeai.types import helper_types
+venv\Lib\site-packages\google\generativeai\models.py:30:from google.generativeai.utils import flatten_update_paths
+venv\Lib\site-packages\google\generativeai\notebook\argument_parser.py:32:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:23:from google.generativeai.notebook import argument_parser
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:24:from google.generativeai.notebook import flag_def
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:25:from google.generativeai.notebook import input_utils
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:26:from google.generativeai.notebook import model_registry
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:27:from google.generativeai.notebook import output_utils
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:28:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:29:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:30:from google.generativeai.notebook import py_utils
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:31:from google.generativeai.notebook import sheets_utils
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:32:from google.generativeai.notebook.lib import llm_function
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:33:from google.generativeai.notebook.lib import llmfn_inputs_source
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:34:from google.generativeai.notebook.lib import llmfn_outputs
+venv\Lib\site-packages\google\generativeai\notebook\cmd_line_parser.py:35:from google.generativeai.notebook.lib import model as model_lib
+venv\Lib\site-packages\google\generativeai\notebook\command.py:22:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\command.py:23:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:23:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:24:from google.generativeai.notebook import model_registry
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:25:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:26:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:27:from google.generativeai.notebook.lib import llm_function
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:28:from google.generativeai.notebook.lib import llmfn_input_utils
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:29:from google.generativeai.notebook.lib import llmfn_output_row
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:30:from google.generativeai.notebook.lib import llmfn_outputs
+venv\Lib\site-packages\google\generativeai\notebook\command_utils.py:31:from google.generativeai.notebook.lib import unique_fn
+venv\Lib\site-packages\google\generativeai\notebook\compare_cmd.py:20:from google.generativeai.notebook import command
+venv\Lib\site-packages\google\generativeai\notebook\compare_cmd.py:21:from google.generativeai.notebook import command_utils
+venv\Lib\site-packages\google\generativeai\notebook\compare_cmd.py:22:from google.generativeai.notebook import input_utils
+venv\Lib\site-packages\google\generativeai\notebook\compare_cmd.py:23:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\compare_cmd.py:24:from google.generativeai.notebook import output_utils
+venv\Lib\site-packages\google\generativeai\notebook\compare_cmd.py:25:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\compare_cmd.py:26:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\compile_cmd.py:19:from google.generativeai.notebook import command
+venv\Lib\site-packages\google\generativeai\notebook\compile_cmd.py:20:from google.generativeai.notebook import command_utils
+venv\Lib\site-packages\google\generativeai\notebook\compile_cmd.py:21:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\compile_cmd.py:22:from google.generativeai.notebook import model_registry
+venv\Lib\site-packages\google\generativeai\notebook\compile_cmd.py:23:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\compile_cmd.py:24:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\compile_cmd.py:25:from google.generativeai.notebook import py_utils
+venv\Lib\site-packages\google\generativeai\notebook\eval_cmd.py:20:from google.generativeai.notebook import command
+venv\Lib\site-packages\google\generativeai\notebook\eval_cmd.py:21:from google.generativeai.notebook import command_utils
+venv\Lib\site-packages\google\generativeai\notebook\eval_cmd.py:22:from google.generativeai.notebook import input_utils
+venv\Lib\site-packages\google\generativeai\notebook\eval_cmd.py:23:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\eval_cmd.py:24:from google.generativeai.notebook import model_registry
+venv\Lib\site-packages\google\generativeai\notebook\eval_cmd.py:25:from google.generativeai.notebook import output_utils
+venv\Lib\site-packages\google\generativeai\notebook\eval_cmd.py:26:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\eval_cmd.py:27:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\flag_def.py:40:from google.generativeai.notebook.lib import llmfn_inputs_source
+venv\Lib\site-packages\google\generativeai\notebook\flag_def.py:41:from google.generativeai.notebook.lib import llmfn_outputs
+venv\Lib\site-packages\google\generativeai\notebook\gspread_client.py:22:from google.generativeai.notebook import html_utils
+venv\Lib\site-packages\google\generativeai\notebook\gspread_client.py:23:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\gspread_client.py:24:from google.generativeai.notebook import sheets_id
+venv\Lib\site-packages\google\generativeai\notebook\html_utils.py:19:from google.generativeai.notebook import sheets_id
+venv\Lib\site-packages\google\generativeai\notebook\input_utils.py:20:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\input_utils.py:21:from google.generativeai.notebook import py_utils
+venv\Lib\site-packages\google\generativeai\notebook\input_utils.py:22:from google.generativeai.notebook.lib import llmfn_input_utils
+venv\Lib\site-packages\google\generativeai\notebook\input_utils.py:23:from google.generativeai.notebook.lib import llmfn_inputs_source
+venv\Lib\site-packages\google\generativeai\notebook\ipython_env_impl.py:19:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\lib\llmfn_input_utils.py:20:from google.generativeai.notebook.lib import llmfn_inputs_source
+venv\Lib\site-packages\google\generativeai\notebook\lib\llmfn_outputs.py:30:from google.generativeai.notebook.lib import llmfn_output_row
+venv\Lib\site-packages\google\generativeai\notebook\lib\llmfn_outputs.py:31:from google.generativeai.notebook.lib import model as model_lib
+venv\Lib\site-packages\google\generativeai\notebook\lib\llmfn_post_process.py:20:from google.generativeai.notebook.lib import llmfn_output_row
+venv\Lib\site-packages\google\generativeai\notebook\lib\llmfn_post_process_cmds.py:25:from google.generativeai.notebook.lib import llmfn_output_row
+venv\Lib\site-packages\google\generativeai\notebook\lib\llmfn_post_process_cmds.py:26:from google.generativeai.notebook.lib import llmfn_post_process
+venv\Lib\site-packages\google\generativeai\notebook\lib\llm_function.py:31:from google.generativeai.notebook.lib import llmfn_input_utils
+venv\Lib\site-packages\google\generativeai\notebook\lib\llm_function.py:32:from google.generativeai.notebook.lib import llmfn_output_row
+venv\Lib\site-packages\google\generativeai\notebook\lib\llm_function.py:33:from google.generativeai.notebook.lib import llmfn_outputs
+venv\Lib\site-packages\google\generativeai\notebook\lib\llm_function.py:34:from google.generativeai.notebook.lib import llmfn_post_process
+venv\Lib\site-packages\google\generativeai\notebook\lib\llm_function.py:35:from google.generativeai.notebook.lib import llmfn_post_process_cmds
+venv\Lib\site-packages\google\generativeai\notebook\lib\llm_function.py:36:from google.generativeai.notebook.lib import model as model_lib
+venv\Lib\site-packages\google\generativeai\notebook\lib\llm_function.py:37:from google.generativeai.notebook.lib import prompt_utils
+venv\Lib\site-packages\google\generativeai\notebook\lib\unique_fn.py:19:from google.generativeai.notebook.lib import llmfn_output_row
+venv\Lib\site-packages\google\generativeai\notebook\magics.py:24:from google.generativeai import client as genai
+venv\Lib\site-packages\google\generativeai\notebook\magics.py:25:from google.generativeai.notebook import gspread_client
+venv\Lib\site-packages\google\generativeai\notebook\magics.py:26:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\magics.py:27:from google.generativeai.notebook import ipython_env_impl
+venv\Lib\site-packages\google\generativeai\notebook\magics.py:28:from google.generativeai.notebook import magics_engine
+venv\Lib\site-packages\google\generativeai\notebook\magics.py:29:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\magics.py:30:from google.generativeai.notebook import sheets_utils
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:20:from google.generativeai.notebook import argument_parser
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:21:from google.generativeai.notebook import cmd_line_parser
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:22:from google.generativeai.notebook import command
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:23:from google.generativeai.notebook import compare_cmd
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:24:from google.generativeai.notebook import compile_cmd
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:25:from google.generativeai.notebook import eval_cmd
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:26:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:27:from google.generativeai.notebook import model_registry
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:28:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:29:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:30:from google.generativeai.notebook import run_cmd
+venv\Lib\site-packages\google\generativeai\notebook\magics_engine.py:31:from google.generativeai.notebook.lib import prompt_utils
+venv\Lib\site-packages\google\generativeai\notebook\model_registry.py:21:from google.generativeai.notebook import text_model
+venv\Lib\site-packages\google\generativeai\notebook\model_registry.py:22:from google.generativeai.notebook.lib import model as model_lib
+venv\Lib\site-packages\google\generativeai\notebook\output_utils.py:20:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\output_utils.py:21:from google.generativeai.notebook import py_utils
+venv\Lib\site-packages\google\generativeai\notebook\output_utils.py:22:from google.generativeai.notebook.lib import llmfn_outputs
+venv\Lib\site-packages\google\generativeai\notebook\parsed_args_lib.py:27:from google.generativeai.notebook import model_registry
+venv\Lib\site-packages\google\generativeai\notebook\parsed_args_lib.py:28:from google.generativeai.notebook.lib import llm_function
+venv\Lib\site-packages\google\generativeai\notebook\parsed_args_lib.py:29:from google.generativeai.notebook.lib import llmfn_inputs_source
+venv\Lib\site-packages\google\generativeai\notebook\parsed_args_lib.py:30:from google.generativeai.notebook.lib import llmfn_outputs
+venv\Lib\site-packages\google\generativeai\notebook\parsed_args_lib.py:31:from google.generativeai.notebook.lib import model as model_lib
+venv\Lib\site-packages\google\generativeai\notebook\post_process_utils.py:21:from google.generativeai.notebook import py_utils
+venv\Lib\site-packages\google\generativeai\notebook\post_process_utils.py:22:from google.generativeai.notebook.lib import llm_function
+venv\Lib\site-packages\google\generativeai\notebook\post_process_utils.py:23:from google.generativeai.notebook.lib import llmfn_output_row
+venv\Lib\site-packages\google\generativeai\notebook\post_process_utils.py:24:from google.generativeai.notebook.lib import llmfn_post_process
+venv\Lib\site-packages\google\generativeai\notebook\post_process_utils_test_helper.py:18:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\run_cmd.py:20:from google.generativeai.notebook import command
+venv\Lib\site-packages\google\generativeai\notebook\run_cmd.py:21:from google.generativeai.notebook import command_utils
+venv\Lib\site-packages\google\generativeai\notebook\run_cmd.py:22:from google.generativeai.notebook import input_utils
+venv\Lib\site-packages\google\generativeai\notebook\run_cmd.py:23:from google.generativeai.notebook import ipython_env
+venv\Lib\site-packages\google\generativeai\notebook\run_cmd.py:24:from google.generativeai.notebook import model_registry
+venv\Lib\site-packages\google\generativeai\notebook\run_cmd.py:25:from google.generativeai.notebook import output_utils
+venv\Lib\site-packages\google\generativeai\notebook\run_cmd.py:26:from google.generativeai.notebook import parsed_args_lib
+venv\Lib\site-packages\google\generativeai\notebook\run_cmd.py:27:from google.generativeai.notebook import post_process_utils
+venv\Lib\site-packages\google\generativeai\notebook\sheets_id.py:19:from google.generativeai.notebook import sheets_sanitize_url
+venv\Lib\site-packages\google\generativeai\notebook\sheets_utils.py:20:from google.generativeai.notebook import gspread_client
+venv\Lib\site-packages\google\generativeai\notebook\sheets_utils.py:21:from google.generativeai.notebook import sheets_id
+venv\Lib\site-packages\google\generativeai\notebook\sheets_utils.py:22:from google.generativeai.notebook.lib import llmfn_inputs_source
+venv\Lib\site-packages\google\generativeai\notebook\sheets_utils.py:23:from google.generativeai.notebook.lib import llmfn_outputs
+venv\Lib\site-packages\google\generativeai\notebook\text_model.py:19:import google.generativeai as genai
+venv\Lib\site-packages\google\generativeai\notebook\text_model.py:20:from google.generativeai.types import generation_types
+venv\Lib\site-packages\google\generativeai\notebook\text_model.py:21:from google.generativeai.notebook.lib import model as model_lib
+venv\Lib\site-packages\google\generativeai\notebook\__init__.py:21:    from google.generativeai.notebook import magics
+venv\Lib\site-packages\google\generativeai\operations.py:20:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\operations.py:22:from google.generativeai import client as client_lib
+venv\Lib\site-packages\google\generativeai\operations.py:23:from google.generativeai.types import model_types
+venv\Lib\site-packages\google\generativeai\permission.py:21:from google.generativeai.types import permission_types
+venv\Lib\site-packages\google\generativeai\permission.py:22:from google.generativeai.types import retriever_types
+venv\Lib\site-packages\google\generativeai\permission.py:23:from google.generativeai.types import model_types
+venv\Lib\site-packages\google\generativeai\protos.py:30:>>> from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\responder.py:25:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\responder.py:26:from google.generativeai.types import content_types
+venv\Lib\site-packages\google\generativeai\retriever.py:21:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\retriever.py:23:from google.generativeai.client import get_default_retriever_client
+venv\Lib\site-packages\google\generativeai\retriever.py:24:from google.generativeai.client import get_default_retriever_async_client
+venv\Lib\site-packages\google\generativeai\retriever.py:25:from google.generativeai.types import helper_types
+venv\Lib\site-packages\google\generativeai\retriever.py:26:from google.generativeai.types.model_types import idecode_time
+venv\Lib\site-packages\google\generativeai\retriever.py:27:from google.generativeai.types import retriever_types
+venv\Lib\site-packages\google\generativeai\types\answer_types.py:19:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\citation_types.py:20:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\citation_types.py:21:from google.generativeai import string_utils
+venv\Lib\site-packages\google\generativeai\types\content_types.py:29:from google.generativeai.types import file_types
+venv\Lib\site-packages\google\generativeai\types\content_types.py:30:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\file_types.py:22:from google.generativeai.client import get_default_file_client
+venv\Lib\site-packages\google\generativeai\types\file_types.py:24:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\generation_types.py:32:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\generation_types.py:33:from google.generativeai import string_utils
+venv\Lib\site-packages\google\generativeai\types\generation_types.py:34:from google.generativeai.types import content_types
+venv\Lib\site-packages\google\generativeai\types\generation_types.py:35:from google.generativeai.responder import _rename_schema_fields
+venv\Lib\site-packages\google\generativeai\types\helper_types.py:39:    >>> import google.generativeai as genai
+venv\Lib\site-packages\google\generativeai\types\helper_types.py:40:    >>> from google.generativeai.types import RequestOptions
+venv\Lib\site-packages\google\generativeai\types\model_types.py:31:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\model_types.py:32:from google.generativeai.types import permission_types
+venv\Lib\site-packages\google\generativeai\types\model_types.py:33:from google.generativeai import string_utils
+venv\Lib\site-packages\google\generativeai\types\palm_safety_types.py:26:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\palm_safety_types.py:27:from google.generativeai import string_utils
+venv\Lib\site-packages\google\generativeai\types\permission_types.py:22:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\permission_types.py:26:from google.generativeai.client import get_default_permission_client
+venv\Lib\site-packages\google\generativeai\types\permission_types.py:27:from google.generativeai.client import get_default_permission_async_client
+venv\Lib\site-packages\google\generativeai\types\permission_types.py:28:from google.generativeai.utils import flatten_update_paths
+venv\Lib\site-packages\google\generativeai\types\permission_types.py:29:from google.generativeai import string_utils
+venv\Lib\site-packages\google\generativeai\types\retriever_types.py:25:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\retriever_types.py:28:from google.generativeai.client import get_default_retriever_client
+venv\Lib\site-packages\google\generativeai\types\retriever_types.py:29:from google.generativeai.client import get_default_retriever_async_client
+venv\Lib\site-packages\google\generativeai\types\retriever_types.py:30:from google.generativeai import string_utils
+venv\Lib\site-packages\google\generativeai\types\retriever_types.py:31:from google.generativeai.types import helper_types
+venv\Lib\site-packages\google\generativeai\types\retriever_types.py:33:from google.generativeai.types import permission_types
+venv\Lib\site-packages\google\generativeai\types\retriever_types.py:34:from google.generativeai.types.model_types import idecode_time
+venv\Lib\site-packages\google\generativeai\types\retriever_types.py:35:from google.generativeai.utils import flatten_update_paths
+venv\Lib\site-packages\google\generativeai\types\safety_types.py:26:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\types\safety_types.py:27:from google.generativeai import string_utils
+venv\Lib\site-packages\google\generativeai\types\text_types.py:23:from google.generativeai import string_utils
+venv\Lib\site-packages\google\generativeai\types\text_types.py:24:from google.generativeai.types import citation_types
+venv\Lib\site-packages\google\generativeai\types\__init__.py:17:from google.generativeai.types.citation_types import *
+venv\Lib\site-packages\google\generativeai\types\__init__.py:18:from google.generativeai.types.content_types import *
+venv\Lib\site-packages\google\generativeai\types\__init__.py:19:from google.generativeai.types.file_types import *
+venv\Lib\site-packages\google\generativeai\types\__init__.py:20:from google.generativeai.types.generation_types import *
+venv\Lib\site-packages\google\generativeai\types\__init__.py:21:from google.generativeai.types.helper_types import *
+venv\Lib\site-packages\google\generativeai\types\__init__.py:22:from google.generativeai.types.model_types import *
+venv\Lib\site-packages\google\generativeai\types\__init__.py:23:from google.generativeai.types.permission_types import *
+venv\Lib\site-packages\google\generativeai\types\__init__.py:24:from google.generativeai.types.safety_types import *
+venv\Lib\site-packages\google\generativeai\__init__.py:20:pip install google-generativeai
+venv\Lib\site-packages\google\generativeai\__init__.py:28:import google.generativeai as genai
+venv\Lib\site-packages\google\generativeai\__init__.py:45:from google.generativeai import version
+venv\Lib\site-packages\google\generativeai\__init__.py:47:from google.generativeai import caching
+venv\Lib\site-packages\google\generativeai\__init__.py:48:from google.generativeai import protos
+venv\Lib\site-packages\google\generativeai\__init__.py:49:from google.generativeai import types
+venv\Lib\site-packages\google\generativeai\__init__.py:51:from google.generativeai.client import configure
+venv\Lib\site-packages\google\generativeai\__init__.py:53:from google.generativeai.embedding import embed_content
+venv\Lib\site-packages\google\generativeai\__init__.py:54:from google.generativeai.embedding import embed_content_async
+venv\Lib\site-packages\google\generativeai\__init__.py:56:from google.generativeai.files import upload_file
+venv\Lib\site-packages\google\generativeai\__init__.py:57:from google.generativeai.files import get_file
+venv\Lib\site-packages\google\generativeai\__init__.py:58:from google.generativeai.files import list_files
+venv\Lib\site-packages\google\generativeai\__init__.py:59:from google.generativeai.files import delete_file
+venv\Lib\site-packages\google\generativeai\__init__.py:61:from google.generativeai.generative_models import GenerativeModel
+venv\Lib\site-packages\google\generativeai\__init__.py:62:from google.generativeai.generative_models import ChatSession
+venv\Lib\site-packages\google\generativeai\__init__.py:64:from google.generativeai.models import list_models
+venv\Lib\site-packages\google\generativeai\__init__.py:65:from google.generativeai.models import list_tuned_models
+venv\Lib\site-packages\google\generativeai\__init__.py:67:from google.generativeai.models import get_model
+venv\Lib\site-packages\google\generativeai\__init__.py:68:from google.generativeai.models import get_base_model
+venv\Lib\site-packages\google\generativeai\__init__.py:69:from google.generativeai.models import get_tuned_model
+venv\Lib\site-packages\google\generativeai\__init__.py:71:from google.generativeai.models import create_tuned_model
+venv\Lib\site-packages\google\generativeai\__init__.py:72:from google.generativeai.models import update_tuned_model
+venv\Lib\site-packages\google\generativeai\__init__.py:73:from google.generativeai.models import delete_tuned_model
+venv\Lib\site-packages\google\generativeai\__init__.py:75:from google.generativeai.operations import list_operations
+venv\Lib\site-packages\google\generativeai\__init__.py:76:from google.generativeai.operations import get_operation
+venv\Lib\site-packages\google\generativeai\__init__.py:78:from google.generativeai.types import GenerationConfig
+venv\Lib\site-packages\google\generativeai\__init__.py:87:        All support for the `google.generativeai` package has ended. It will no longer be receiving 

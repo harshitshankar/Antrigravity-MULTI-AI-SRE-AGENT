@@ -67,37 +67,32 @@ def run_planner(state: Dict[str, Any]) -> Dict[str, Any]:
     if api_key:
         try:
             # Import the Google Generative AI library
-            import google.generativeai as genai
-            
-            # Configure the library with our API key (like logging in)
-            genai.configure(api_key=api_key)
-            
-            # Create a model instance — "gemini-1.5-flash" is fast and cheap
-            model = genai.GenerativeModel("gemini-1.5-flash")
-            
-            # Build a "prompt" — this is the instruction we send to the AI
-            # The AI will read this and generate a response
+            # Build the prompt FIRST
             prompt = f"""
             You are the Lead SRE Planner Agent. A production incident was reported:
             "{query}"
-            
+
             Identify the service targeted by this incident (choose exactly from: 'orders', 'payment', 'inventory', or 'unknown').
-            Then, create a step-by-step SRE investigation plan. Include:
+
+            Then create a step-by-step SRE investigation plan.
+
+            Include:
             1. Which log files should be searched.
-            2. Which metrics (e.g., CPU, memory, database load) should be inspected.
-            3. What runbooks / KEDB entries are relevant.
-            
+            2. Which metrics should be inspected.
+            3. What KEDB entries are relevant.
+
             Respond in this format:
+
             SERVICE: <service_name>
-            
+
             PLAN:
             - [ ] Step 1...
             - [ ] Step 2...
             """
-            
-            # Send the prompt to Gemini and get the response
-            response = model.generate_content(prompt)
-            response_text = response.text  # The AI's response as a string
+
+            from utils.gemini_helper import generate
+
+            response_text = generate(prompt)
             
             # ---- Parse the AI's response to extract the service name ----
             # We use a "regex" (regular expression) to find the pattern "SERVICE: orders"

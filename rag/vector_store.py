@@ -11,23 +11,10 @@ TWO SEARCH MODES:
    - Uses ChromaDB (a vector database) + Google Gemini Embeddings
    - Converts text into "embeddings" (lists of numbers representing meaning)
    - Finds documents with similar meaning, not just matching words
-   - Example: searching "connection pool full" would find an article about
-     "HikariPool exhausted" even though the words are different!
 
 2. KEYWORD SEARCH (fallback when no API key):
    - Counts how many words from your query appear in each document
    - Simpler but still works well for demo purposes
-   - No internet or API key required
-
-WHAT IS ChromaDB?
-ChromaDB is a "vector database" — a special database designed to store
-text as numbers (embeddings) and find similar text quickly.
-Think of it like Google search but for your own documents.
-
-WHAT ARE EMBEDDINGS?
-Embeddings convert text into a long list of numbers (e.g., 768 numbers).
-Similar texts get similar numbers. This lets us do "semantic search" —
-finding documents by meaning rather than exact word matching.
 =============================================================================
 """
 
@@ -65,44 +52,41 @@ class KEDBIndex:
         # ---- Try to set up ChromaDB with Gemini Embeddings ----
         if self.api_key:
             try:
-                import google.generativeai as genai
+                # Modern google-genai library imports
+                from google import genai
+                from google.genai import types
                 import chromadb
-                # EmbeddingFunction is an interface ChromaDB uses to convert text → numbers
                 from chromadb.api.types import EmbeddingFunction, Documents, Embeddings
                 
-                # Configure Gemini with our API key
-                genai.configure(api_key=self.api_key)
+                # Initialize the modern Gemini client
+                client = genai.Client(api_key=self.api_key)
                 
-                # ---- Define a custom embedding function ----
-                # ChromaDB needs a function that converts text into number arrays.
-                # We create one that uses Google's Gemini embedding model.
+                # ---- Define a custom embedding function using the new SDK ----
+               # ---- Define a custom embedding function using the new SDK ----
                 class GeminiEmbeddingFunction(EmbeddingFunction):
-                    """Custom embedding function to fetch vectors using Gemini Embeddings API."""
+                    """Custom embedding function to fetch vectors using the modern google-genai SDK."""
                     def __call__(self, input: Documents) -> Embeddings:
                         embeddings = []
                         for text in input:
                             try:
-                                # This API call converts text → list of 768 numbers
-                                result = genai.embed_content(
-                                    model="models/text-embedding-004",  # Google's embedding model
-                                    content=text,
-                                    task_type="retrieval_document"  # Optimized for document search
+                                # Switched from text-embedding-004 to gemini-embedding-001 with 768 output dimensions
+                                result = client.models.embed_content(
+                                    model="gemini-embedding-001",
+                                    contents=text,
+                                    config=types.EmbedContentConfig(output_dimensionality=768)
                                 )
-                                embeddings.append(result['embedding'])
+                                # Extract numbers array from the new response object structure
+                                embeddings.append(result.embeddings[0].values)
                             except Exception as embed_err:
                                 print(f"[KEDB] Embedding fetch failed: {embed_err}. Fallback to dummy zero-vector.")
-                                # If the API fails, use a dummy vector (all zeros)
                                 embeddings.append([0.0] * 768)
                         return embeddings
                 
                 # ---- Create the ChromaDB client ----
-                # PersistentClient saves the database to disk so we don't have to
-                # re-embed documents every time the app starts
                 chroma_path = os.path.join(os.path.dirname(__file__), "chroma_db")
                 self.client = chromadb.PersistentClient(path=chroma_path)
                 
                 # ---- Create or get the collection ----
-                # A "collection" in ChromaDB is like a table in a regular database
                 self.collection = self.client.get_or_create_collection(
                     name="kedb_collection",
                     embedding_function=GeminiEmbeddingFunction()
@@ -121,23 +105,17 @@ class KEDBIndex:
             self.use_fallback = True
 
     def load_documents(self):
-        """
-        Reads all .md (markdown) files from the KEDB directory.
-        Each file becomes a document with an ID, title, content, and path.
-        """
+        """Reads all .md (markdown) files from the KEDB directory."""
         if not os.path.exists(self.kedb_dir):
             os.makedirs(self.kedb_dir, exist_ok=True)
             return
 
-        # glob.glob finds all files matching a pattern
-        # os.path.join(kedb_dir, "*.md") matches all markdown files
         files = glob.glob(os.path.join(self.kedb_dir, "*.md"))
         for filepath in files:
             try:
                 with open(filepath, 'r', encoding='utf-8') as f:
                     content = f.read()
-                    filename = os.path.basename(filepath)  # e.g., "db_pool_exhausted.md"
-                    # Create a human-readable title from the filename
+                    filename = os.path.basename(filepath)
                     title = filename.replace(".md", "").replace("_", " ").title()
                     self.documents.append({
                         "id": filename,
@@ -149,13 +127,7 @@ class KEDBIndex:
                 print(f"[KEDB] Error loading {filepath}: {e}")
 
     def populate_chroma(self):
-        """
-        Adds all loaded documents to the ChromaDB collection.
-        ChromaDB will automatically convert each document's content into
-        embeddings using our GeminiEmbeddingFunction.
-        
-        'upsert' = insert if new, update if already exists
-        """
+        """Adds all loaded documents to the ChromaDB collection via upsert."""
         if len(self.documents) > 0:
             ids = [doc["id"] for doc in self.documents]
             contents = [doc["content"] for doc in self.documents]
@@ -167,28 +139,16 @@ class KEDBIndex:
             )
 
     def search(self, query: str, limit: int = 2) -> List[Dict[str, Any]]:
-        """
-        Searches the KEDB documents for matches to the query.
-        
-        Args:
-            query: The incident description to search for
-            limit: Maximum number of results to return
-            
-        Returns:
-            List of matching documents with scores
-        """
-        # If no documents exist, try loading them
+        """Searches the KEDB documents using either Vector Search or Keyword Overlap."""
         if not self.documents:
             self.load_documents()
 
         # ---- Method 1: ChromaDB Vector Search ----
         if not self.use_fallback:
             try:
-                # ChromaDB converts our query into an embedding (numbers)
-                # and finds the documents with the most similar embeddings
                 results = self.collection.query(
-                    query_texts=[query],    # What we're searching for
-                    n_results=limit          # How many results we want
+                    query_texts=[query],
+                    n_results=limit
                 )
                 formatted = []
                 if results and 'documents' in results and results['documents'] and results['documents'][0]:
@@ -205,31 +165,19 @@ class KEDBIndex:
                 print(f"[KEDB] Chroma search query failed: {e}. Executing keyword-based search fallback.")
 
         # ---- Method 2: Keyword Overlap Search (Fallback) ----
-        # This is simpler but effective: count how many words from the query
-        # appear in each document, and rank by that count
-        
-        # Split query into individual words (lowercase)
-        # re.findall(r'\w+', ...) extracts all "word" characters
         query_words = set(re.findall(r'\w+', query.lower()))
         scored_docs = []
         
         for doc in self.documents:
-            # Get all words from the document
             doc_words = set(re.findall(r'\w+', doc["content"].lower()))
-            
-            # Count how many query words appear in the document
             overlap = len(query_words.intersection(doc_words))
+            score = overlap / max(len(query_words), 1)
             
-            # Calculate a score: fraction of query words found in the document
-            score = overlap / max(len(query_words), 1)  # max() prevents division by zero
-            
-            if overlap > 0:  # Only include documents with at least 1 matching word
+            if overlap > 0:
                 scored_docs.append((score, doc))
         
-        # Sort by score (highest first)
         scored_docs.sort(key=lambda x: x[0], reverse=True)
         
-        # Return the top 'limit' results
         results = []
         for score, doc in scored_docs[:limit]:
             results.append({
@@ -243,10 +191,6 @@ class KEDBIndex:
         return results
 
 
-# ---- Self-Testing Block ----
-# This code only runs if you execute this file directly:
-#   python rag/vector_store.py
-# It does NOT run when this file is imported by other files
 if __name__ == "__main__":
     current_dir = os.path.dirname(__file__)
     sample_kedb_dir = os.path.abspath(os.path.join(current_dir, "..", "kedb"))

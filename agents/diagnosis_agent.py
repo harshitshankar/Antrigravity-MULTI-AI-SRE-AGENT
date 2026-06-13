@@ -51,10 +51,7 @@ def run_diagnosis_agent(state: Dict[str, Any]) -> Dict[str, Any]:
     # ---- Step 2: Try using AI to diagnose (recommended) ----
     if api_key:
         try:
-            import google.generativeai as genai
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel("gemini-1.5-flash")
-            
+         
             # This is the most important prompt in the system!
             # We feed ALL the findings from previous agents to the AI
             # and ask it to determine the root cause + fix
@@ -85,9 +82,9 @@ def run_diagnosis_agent(state: Dict[str, Any]) -> Dict[str, Any]:
             REMEDIATION:
             <actionable steps to resolve the issue>
             """
-            
-            response = model.generate_content(prompt)
-            response_text = response.text.strip()
+            from utils.gemini_helper import generate
+
+            response_text = generate(prompt).strip()
             
             # ---- Parse the AI's response into separate diagnosis and remediation ----
             if "REMEDIATION:" in response_text:

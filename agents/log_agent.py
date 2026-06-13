@@ -79,30 +79,26 @@ def run_log_agent(state: Dict[str, Any]) -> Dict[str, Any]:
         
         if api_key:
             try:
-                import google.generativeai as genai
-                genai.configure(api_key=api_key)
-                model = genai.GenerativeModel("gemini-1.5-flash")
-                
                 # Join the last 20 error lines into one string to send to the AI
-                # We limit to 20 lines to avoid sending too much data
                 logs_joined = "\n".join(log_lines[-20:])
-                
+
                 prompt = f"""
                 You are an SRE Log Analysis Agent.
                 The following error/warning logs were captured for the '{service}' service:
-                
+ 
                 {logs_joined}
-                
+
                 Analyze these logs and summarize:
                 1. What specific errors/warnings occurred.
                 2. When did they start (approximate timeline if available).
                 3. Any patterns or immediate insights.
-                
+
                 Keep your summary professional and concise.
                 """
-                
-                response = model.generate_content(prompt)
-                summary = response.text.strip()
+
+                from utils.gemini_helper import generate
+
+                summary = generate(prompt).strip()
             except Exception as e:
                 print(f"[LogAgent] Gemini API error: {e}. Falling back to text summary.")
                 api_key = None  # Trigger fallback

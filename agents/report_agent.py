@@ -57,9 +57,6 @@ def run_report_agent(state: Dict[str, Any]) -> Dict[str, Any]:
     # ---- Step 2: Try generating report with AI ----
     if api_key:
         try:
-            import google.generativeai as genai
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel("gemini-1.5-flash")
             
             prompt = f"""
             You are the SRE Incident Report Generator.
@@ -96,8 +93,9 @@ def run_report_agent(state: Dict[str, Any]) -> Dict[str, Any]:
             Ensure it looks extremely professional, polished, and comprehensive. Do not use placeholders.
             """
             
-            response = model.generate_content(prompt)
-            report = response.text.strip()
+            from utils.gemini_helper import generate
+
+            response_text = generate(prompt).strip()
         except Exception as e:
             print(f"[ReportAgent] Gemini API error: {e}. Falling back to rule-based report generation.")
             api_key = None

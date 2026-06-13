@@ -66,9 +66,7 @@ def run_rag_agent(state: Dict[str, Any]) -> Dict[str, Any]:
         
         if api_key:
             try:
-                import google.generativeai as genai
-                genai.configure(api_key=api_key)
-                model = genai.GenerativeModel("gemini-1.5-flash")
+          
                 
                 # Build a text block containing all matched documents
                 docs_joined = ""
@@ -90,8 +88,9 @@ def run_rag_agent(state: Dict[str, Any]) -> Dict[str, Any]:
                 Keep your response clear, structured, and concise.
                 """
                 
-                response = model.generate_content(prompt)
-                summary = response.text.strip()
+                from utils.gemini_helper import generate
+
+                response_text = generate(prompt).strip()
             except Exception as e:
                 print(f"[RAGAgent] Gemini API error: {e}. Falling back to standard summary.")
                 api_key = None
