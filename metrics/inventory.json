@@ -1,8 +1,8 @@
 {
   "service": "inventory",
-  "cpu": 42,
-  "memory": 60,
-  "error_rate": 0,
-  "active_connections": 12,
+  "cpu": 62,
+  "memory": 80,
+  "error_rate": 60,
+  "active_connections": 4,
   "timestamp": "2026-06-13T11:05:15Z"
 }
